@@ -1362,6 +1362,8 @@ static const struct snd_soc_dapm_route wm5102_dapm_routes[] = {
 	{ "IN3L PGA", NULL, "IN3L" },
 	{ "IN3R PGA", NULL, "IN3R" },
 
+	{ "MICVDD", NULL, "CPVDD" },
+
 	{ "ASRC1L", NULL, "ASRC1L Input" },
 	{ "ASRC1R", NULL, "ASRC1R Input" },
 	{ "ASRC2L", NULL, "ASRC2L Input" },

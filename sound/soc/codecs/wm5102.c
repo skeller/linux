@@ -1498,6 +1498,25 @@ static const struct snd_soc_dapm_route wm5102_dapm_routes[] = {
 	{ "IN3L PGA", NULL, "IN3L" },
 	{ "IN3R PGA", NULL, "IN3R" },
 
+	{ "MICVDD", NULL, "CPVDD" },
+
+	{ "ASRC1L", NULL, "ASRC1L Input" },
+	{ "ASRC1R", NULL, "ASRC1R Input" },
+	{ "ASRC2L", NULL, "ASRC2L Input" },
+	{ "ASRC2R", NULL, "ASRC2R Input" },
+
+	{ "ISRC1DEC1", NULL, "ISRC1DEC1 Input" },
+	{ "ISRC1DEC2", NULL, "ISRC1DEC2 Input" },
+
+	{ "ISRC1INT1", NULL, "ISRC1INT1 Input" },
+	{ "ISRC1INT2", NULL, "ISRC1INT2 Input" },
+
+	{ "ISRC2DEC1", NULL, "ISRC2DEC1 Input" },
+	{ "ISRC2DEC2", NULL, "ISRC2DEC2 Input" },
+
+	{ "ISRC2INT1", NULL, "ISRC2INT1 Input" },
+	{ "ISRC2INT2", NULL, "ISRC2INT2 Input" },
+
 	ARIZONA_MIXER_ROUTES("OUT1L", "HPOUT1L"),
 	ARIZONA_MIXER_ROUTES("OUT1R", "HPOUT1R"),
 	ARIZONA_MIXER_ROUTES("OUT2L", "HPOUT2L"),

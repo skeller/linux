@@ -194,7 +194,11 @@
 #define GPIO_IRQS	      (32*5)
 #define SPARE_IRQS		(64)
 
-#define NR_IRQS		      HARD_IRQS+FIQ_IRQS+GPIO_IRQS+SPARE_IRQS
+#define CORE_IRQS            HARD_IRQS+FIQ_IRQS+GPIO_IRQS
 
+#define BOARD_AUDIO_START (GPIO_IRQ_START + GPIO_IRQS)
+#define BOARD_AUDIO_IRQS   130
+
+#define NR_IRQS                      CORE_IRQS+BOARD_AUDIO_IRQS
 
 #endif /* _BCM2708_IRQS_H_ */

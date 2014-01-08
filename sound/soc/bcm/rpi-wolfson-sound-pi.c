@@ -497,6 +497,13 @@ static int snd_rpi_wsp_config_8804_clks(struct snd_soc_codec *wm8804_codec,
 		return ret;
 	}
 
+	/*Fix MCLKDIV=0 for 256fs to avoid any issues switching between TX and RX. RX always expects 256fs*/
+	ret = snd_soc_dai_set_clkdiv(wm8804_dai, WM8804_MCLK_DIV, 0 );
+	if (ret != 0) {
+		dev_err(wm8804_codec->dev, "Failed to set MCLK_DIV to 256fs: %d\n", ret);
+		return ret;
+	}
+
 	/*Set CLKOUT as OSC Frequency*/
 	ret = snd_soc_dai_set_sysclk(wm8804_dai, WM8804_CLKOUT_SRC_OSCCLK, WM8804_CLKOUT_HZ, 0);
 	if (ret != 0) {

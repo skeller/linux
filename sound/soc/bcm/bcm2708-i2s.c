@@ -819,8 +819,13 @@ static const struct snd_soc_component_driver bcm2708_i2s_component = {
 };
 
 static const struct snd_pcm_hardware bcm2708_pcm_hardware = {
-	.info			= SNDRV_PCM_INFO_INTERLEAVED |
-				  SNDRV_PCM_INFO_JOINT_DUPLEX,
+	.info			= SNDRV_PCM_INFO_MMAP |
+				  SNDRV_PCM_INFO_MMAP_VALID |
+				  SNDRV_PCM_INFO_INTERLEAVED |
+				  SNDRV_PCM_INFO_PAUSE |
+				  SNDRV_PCM_INFO_RESUME |
+				  SNDRV_PCM_INFO_JOINT_DUPLEX |
+				  SNDRV_PCM_INFO_NO_PERIOD_WAKEUP,
 	.formats		= SNDRV_PCM_FMTBIT_S16_LE |
 				  SNDRV_PCM_FMTBIT_S24_LE |
 				  SNDRV_PCM_FMTBIT_S32_LE,

@@ -510,8 +510,12 @@ static int bcm2708_dma_probe(struct platform_device *pdev)
 			&chan_base,
 			&irq);
 
-		if (chan_id < 0) 
-			break;
+		if (chan_id < 0) {
+			if (i == 0)
+				return -EPROBE_DEFER;
+			else
+				break;
+		}
 
 		rc = bcm2708_dma_chan_init(od, chan_base, chan_id, irq);
 		if (rc) {

@@ -516,6 +516,9 @@ struct dma_chan *__dma_request_channel(const dma_cap_mask_t *mask,
 	struct dma_chan *chan = NULL;
 	int err;
 
+	if (list_empty(&dma_device_list))
+		return ERR_PTR(-EPROBE_DEFER);
+
 	/* Find a channel */
 	mutex_lock(&dma_list_mutex);
 	list_for_each_entry_safe(device, _d, &dma_device_list, global_node) {

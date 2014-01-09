@@ -144,6 +144,7 @@ static int dmaengine_pcm_new(struct snd_soc_pcm_runtime *rtd)
 	struct snd_pcm_substream *substream;
 	unsigned int i;
 	int ret;
+	struct dma_chan *chan;
 
 	for (i = SNDRV_PCM_STREAM_PLAYBACK; i <= SNDRV_PCM_STREAM_CAPTURE; i++) {
 		substream = rtd->pcm->streams[i].substream;
@@ -151,15 +152,20 @@ static int dmaengine_pcm_new(struct snd_soc_pcm_runtime *rtd)
 			continue;
 
 		if (!pcm->chan[i] && (pcm->flags & SND_DMAENGINE_PCM_FLAG_COMPAT)) {
-			pcm->chan[i] = dmaengine_pcm_compat_request_channel(rtd,
+			chan = dmaengine_pcm_compat_request_channel(rtd,
 				substream);
 		}
 
-		if (!pcm->chan[i]) {
+		if (IS_ERR(chan)) {
+			if (PTR_ERR(chan) == -EPROBE_DEFER) {
+				ret =  -EPROBE_DEFER;
+				goto err_free;
+			}
 			dev_err(rtd->platform->dev,
 				"Missing dma channel for stream: %d\n", i);
-			ret = -EINVAL;
-			goto err_free;
+			pcm->chan[i] = NULL;
+		} else {
+				pcm->chan[i] = chan;
 		}
 
 		ret = snd_pcm_lib_preallocate_pages(substream,

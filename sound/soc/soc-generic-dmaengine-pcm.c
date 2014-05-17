@@ -144,7 +144,7 @@ static int dmaengine_pcm_new(struct snd_soc_pcm_runtime *rtd)
 	struct snd_pcm_substream *substream;
 	unsigned int i;
 	int ret;
-	struct dma_chan *chan;
+	struct dma_chan *chan=NULL;
 
 	for (i = SNDRV_PCM_STREAM_PLAYBACK; i <= SNDRV_PCM_STREAM_CAPTURE; i++) {
 		substream = rtd->pcm->streams[i].substream;

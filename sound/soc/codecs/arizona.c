@@ -1266,7 +1266,6 @@ const struct snd_soc_dai_ops arizona_dai_ops = {
 EXPORT_SYMBOL_GPL(arizona_dai_ops);
 
 const struct snd_soc_dai_ops arizona_simple_dai_ops = {
-	.startup = arizona_startup,
 	.hw_params = arizona_hw_params_rate,
 	.set_sysclk = arizona_dai_set_sysclk,
 };

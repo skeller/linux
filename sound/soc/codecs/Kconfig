@@ -157,6 +157,8 @@ config SND_SOC_ARIZONA
 	default m if SND_SOC_WM5102=m
 	default m if SND_SOC_WM5110=m
 	default m if SND_SOC_WM8997=m
+	select MFD_ARIZONA
+	#depends on MFD_ARIZONA
 
 config SND_SOC_WM_HUBS
 	tristate
@@ -413,6 +415,7 @@ config SND_SOC_WM5100
 
 config SND_SOC_WM5102
 	tristate
+	select SND_SOC_ARIZONA
 
 config SND_SOC_WM5110
 	tristate

@@ -312,16 +312,11 @@ struct pll_div {
 static struct {
 	unsigned int div;
 	unsigned int freqmode;
-	unsigned int mclkdiv;
 } post_table[] = {
-	{  2,  0, 0 },
-	{  4,  0, 1 },
-	{  4,  1, 0 },
-	{  8,  1, 1 },
-	{  8,  2, 0 },
-	{ 16,  2, 1 },
-	{ 12,  3, 0 },
-	{ 24,  3, 1 }
+	{  2,  0 },
+	{  4,  1 },
+	{  8,  2 },
+	{ 12,  3 }
 };
 
 #define FIXED_PLL_SIZE ((1ULL << 22) * 10)
@@ -341,7 +336,6 @@ static int pll_factors(struct pll_div *pll_div, unsigned int target,
 		if ((tmp >= 90000000 && tmp <= 100000000) &&
 		    (mclk_div == post_table[i].mclkdiv)) {
 			pll_div->freqmode = post_table[i].freqmode;
-			pll_div->mclkdiv = post_table[i].mclkdiv;
 			target *= post_table[i].div;
 			break;
 		}
@@ -411,8 +405,7 @@ static int wm8804_set_pll(struct snd_soc_dai *dai, int pll_id,
 		snd_soc_update_bits(codec, WM8804_PLL4, 0xf | 0x10,
 				    pll_div.n | (pll_div.prescale << 4));
 		/* set mclkdiv and freqmode */
-		snd_soc_update_bits(codec, WM8804_PLL5, 0x3 | 0x8,
-				    pll_div.freqmode | (pll_div.mclkdiv << 3));
+		snd_soc_update_bits(codec, WM8804_PLL5, 0x3, pll_div.freqmode);
 		/* set PLLK */
 		snd_soc_write(codec, WM8804_PLL1, pll_div.k & 0xff);
 		snd_soc_write(codec, WM8804_PLL2, (pll_div.k >> 8) & 0xff);
@@ -476,6 +469,11 @@ static int wm8804_set_clkdiv(struct snd_soc_dai *dai,
 		wm8804 = snd_soc_codec_get_drvdata(codec);
 		wm8804->mclk_div = div;
 		break;
+	case WM8804_MCLK_DIV:
+		snd_soc_update_bits(codec, WM8804_PLL5, 0x8,
+				    (div & 0x1) << 3);
+		break;
+
 	default:
 		dev_err(dai->dev, "Unknown clock divider: %d\n", div_id);
 		return -EINVAL;

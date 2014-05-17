@@ -333,8 +333,7 @@ static int pll_factors(struct pll_div *pll_div, unsigned int target,
 	 */
 	for (i = 0; i < ARRAY_SIZE(post_table); i++) {
 		tmp = target * post_table[i].div;
-		if ((tmp >= 90000000 && tmp <= 100000000) &&
-		    (mclk_div == post_table[i].mclkdiv)) {
+		if ((tmp >= 90000000 && tmp <= 100000000)) {
 			pll_div->freqmode = post_table[i].freqmode;
 			target *= post_table[i].div;
 			break;
@@ -464,10 +463,6 @@ static int wm8804_set_clkdiv(struct snd_soc_dai *dai,
 	case WM8804_CLKOUT_DIV:
 		snd_soc_update_bits(codec, WM8804_PLL5, 0x30,
 				    (div & 0x3) << 4);
-		break;
-	case WM8804_MCLK_DIV:
-		wm8804 = snd_soc_codec_get_drvdata(codec);
-		wm8804->mclk_div = div;
 		break;
 	case WM8804_MCLK_DIV:
 		snd_soc_update_bits(codec, WM8804_PLL5, 0x8,
